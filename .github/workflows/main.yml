@@ -1,0 +1,27 @@
+name: RDP WIN 10
+
+on:
+  workflow_dispatch:
+
+jobs:
+  secure-rdp:
+    runs-on: windows-latest
+    timeout-minutes: 3600
+
+    steps:
+      - name: Hardware Specs Highlight
+        run: |
+          $red = "`e[31m"
+          $reset = "`e[0m"
+
+          Write-Host "${red}=== TARGET VM SPECS ===${reset}"
+          Write-Host "${red}RAM: 16 GB${reset}"
+          Write-Host "${red}Storage: 500 GB SSD${reset}"
+          Write-Host "${red}GPU: 8 GB Dedicated NVIDIA/AMD${reset}"
+          Write-Host "${red}======================${reset}"
+
+      - name: Configure Core RDP Settings
+        run: |
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' `
+                             -Name "fDenyTSConnections" -Value 0 -Force
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\
